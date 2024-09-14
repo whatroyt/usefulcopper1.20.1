@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:copper_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "R  ",
+    "III",
+    "I  "
+  ],
+  "result": {
+    "item": "usefulcopper:coppermachinegun"
+  },
+  "show_notification": true
+}

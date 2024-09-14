@@ -3,7 +3,9 @@
 	"package": "whatro.usefulcopper.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"PlayerFirstPersonMixin",
+		"PlayerThirdPersonMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

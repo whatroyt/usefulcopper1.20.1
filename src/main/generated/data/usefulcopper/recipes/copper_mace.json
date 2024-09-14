@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "D": {
+      "item": "minecraft:light_blue_dye"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CCC",
+    " BD"
+  ],
+  "result": {
+    "item": "usefulcopper:copper_mace"
+  },
+  "show_notification": true
+}
