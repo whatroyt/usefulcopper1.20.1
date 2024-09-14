@@ -1,10 +1,10 @@
 {
   "credit": "Made with Blockbench",
-  "parent": "coppermachinegun",
+  "parent": "copper_revolver",
   "texture_size": [32, 32],
   "textures": {
-    "2": "coppergun:item/coppermachinegun",
-    "particle": "coppergun:item/coppermachinegun"
+    "2": "usefulcopper:item/copper_revolver",
+    "particle": "usefulcopper:item/copper_revolver"
   },
   "elements": [
     {

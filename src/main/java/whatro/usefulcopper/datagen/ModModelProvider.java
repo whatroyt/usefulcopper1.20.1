@@ -19,7 +19,6 @@ public class ModModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-        //itemModelGenerator.register(ModItems.COPPER_MACHINE_GUN, Models.GENERATED);
         itemModelGenerator.register(ModItems.COPPER_BULLET, Models.GENERATED);
         itemModelGenerator.register(ModItems.COPPER_SPEEDLOADER, Models.HANDHELD);
         itemModelGenerator.register(ModItems.COPPER_NUGGET, Models.GENERATED);

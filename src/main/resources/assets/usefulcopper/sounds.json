@@ -2,19 +2,19 @@
   "copperrevolvergunshot": {
     "subtitle": "Copper Revolver Gunshot",
     "sounds": [
-      "coppergun:copperrevolvergunshot"
+      "usefulcopper:copperrevolvergunshot"
     ]
   },
   "copperrevolverreload": {
     "subtitle": "Copper Revolver Reload",
     "sounds": [
-      "coppergun:copperrevolverreload"
+      "usefulcopper:copperrevolverreload"
     ]
   },
   "copperrevolverclock": {
     "subtitle": "Copper Revolver Is In Agony Noise",
     "sounds": [
-      "coppergun:copperrevolverclock"
+      "usefulcopper:copperrevolverclock"
     ]
   }
 }

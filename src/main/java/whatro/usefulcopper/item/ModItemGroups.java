@@ -11,15 +11,15 @@ import whatro.usefulcopper.Usefulcopper;
 
 public class ModItemGroups {
     public static final ItemGroup COPPER_GROUP = Registry.register(Registries.ITEM_GROUP,
-            new Identifier(Usefulcopper.MOD_ID, "coppermachinegun"),
-            FabricItemGroup.builder().displayName(Text.translatable("itemgroup.coppergun"))
+            new Identifier(Usefulcopper.MOD_ID, "copper_revolver"),
+            FabricItemGroup.builder().displayName(Text.translatable("itemgroup.usefulcopper"))
                     .icon(() -> new ItemStack(ModItems.COPPER_NUGGET)).entries((displayContext, entries) -> {
                         entries.add(ModItems.COPPER_MACE);
                         entries.add(ModItems.COPPER_HELMET);
                         entries.add(ModItems.COPPER_CHESTPLATE);
                         entries.add(ModItems.COPPER_LEGGINGS);
                         entries.add(ModItems.COPPER_BOOTS);
-                        entries.add(ModItems.COPPER_MACHINE_GUN);
+                        entries.add(ModItems.COPPER_REVOLVER);
                         entries.add(ModItems.COPPER_SPEEDLOADER);
                         entries.add(ModItems.COPPER_NUGGET);
 

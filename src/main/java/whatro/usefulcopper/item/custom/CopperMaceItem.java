@@ -109,7 +109,7 @@ public class CopperMaceItem extends SwordItem {
 
             // Use a custom identifier for the particle packet
             for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-                ServerPlayNetworking.send(player, new Identifier("coppergun", "particle_packet"), buffer);
+                ServerPlayNetworking.send(player, new Identifier("usefulcopper", "particle_packet"), buffer);
             }
         }
     }

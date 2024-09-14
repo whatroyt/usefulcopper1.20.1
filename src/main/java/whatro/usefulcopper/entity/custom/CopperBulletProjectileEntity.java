@@ -22,14 +22,6 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
         super(entityType, world);
     }
 
-    public CopperBulletProjectileEntity(World world, LivingEntity owner) {
-        super(ModEntities.COPPER_PROJECTILE, owner, world); // null will be changed later
-    }
-
-    public CopperBulletProjectileEntity(World world, double x, double y, double z) {
-        super(ModEntities.COPPER_PROJECTILE, x, y, z, world); // null will be changed later
-    }
-
     @Override
     protected Item getDefaultItem() {
         return ModItems.COPPER_BULLET;

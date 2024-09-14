@@ -17,7 +17,7 @@ import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
 
 public class ModItems {
-    public static final Item COPPER_MACHINE_GUN = registerItem("coppermachinegun",
+    public static final Item COPPER_REVOLVER = registerItem("copper_revolver",
             new CopperRevolverItem(new FabricItemSettings().maxCount(1)));
 
     public static final Item COPPER_BULLET = registerItem("copper_bullet", new Item(new FabricItemSettings()));
@@ -35,7 +35,7 @@ public class ModItems {
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
-        entries.add(COPPER_MACHINE_GUN);
+        entries.add(COPPER_REVOLVER);
     }
 
     private static Item registerItem(String name, Item item) {

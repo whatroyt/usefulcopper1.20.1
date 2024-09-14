@@ -24,19 +24,18 @@ import whatro.usefulcopper.networking.packet.PacketHandler;
 
 public class UsefulcopperClient implements ClientModInitializer {
     public static KeyBinding reloadKey;
-    private static final Identifier SHOOT_PACKET_ID = new Identifier("coppergun", "shoot");
+    private static final Identifier SHOOT_PACKET_ID = new Identifier("usefulcopper", "shoot");
 
     @Override
     public void onInitializeClient() {
-        EntityRendererRegistry.register(ModEntities.COPPER_PROJECTILE, (context) ->
-                new FlyingItemEntityRenderer(context));
+        EntityRendererRegistry.register(ModEntities.COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
 
         PacketHandler.registerClient();
 
         reloadKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.coppergun.reload",
+                "key.usefulcopper.reload",
                 GLFW.GLFW_KEY_B,
-                "category.coppergun"
+                "category.usefulcopper"
         ));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

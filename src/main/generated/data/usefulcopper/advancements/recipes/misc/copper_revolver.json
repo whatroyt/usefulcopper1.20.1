@@ -27,7 +27,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "usefulcopper:coppermachinegun"
+        "recipe": "usefulcopper:copper_revolver"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -41,7 +41,7 @@
   ],
   "rewards": {
     "recipes": [
-      "usefulcopper:coppermachinegun"
+      "usefulcopper:copper_revolver"
     ]
   },
   "sends_telemetry_event": false

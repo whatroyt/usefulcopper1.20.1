@@ -1,21 +1,21 @@
 {
-  "item.coppergun.coppermachinegun": "Copper Revolver",
-  "item.coppergun.copper_bullet": "Copper Bullet",
-  "item.coppergun.copper_speedloader": "Copper Speedloader",
-  "item.coppergun.copper_nugget": "Copper Nugget",
-  "item.coppergun.copper_mace": "Copper Mace",
-  "item.coppergun.copper_helmet": "Copper Helmet",
-  "item.coppergun.copper_chestplate": "Copper Chestplate",
-  "item.coppergun.copper_leggings": "Copper Leggings",
-  "item.coppergun.copper_boots": "Copper Boots",
+  "item.usefulcopper.copper_revolver": "Copper Revolver",
+  "item.usefulcopper.copper_bullet": "Copper Bullet",
+  "item.usefulcopper.copper_speedloader": "Copper Speedloader",
+  "item.usefulcopper.copper_nugget": "Copper Nugget",
+  "item.usefulcopper.copper_mace": "Copper Mace",
+  "item.usefulcopper.copper_helmet": "Copper Helmet",
+  "item.usefulcopper.copper_chestplate": "Copper Chestplate",
+  "item.usefulcopper.copper_leggings": "Copper Leggings",
+  "item.usefulcopper.copper_boots": "Copper Boots",
 
-  "itemgroup.coppergun": "Copper Group",
+  "itemgroup.usefulcopper": "Copper Group",
 
-  "sounds.coppergun.copperrevolvergunshot": "Copper Revolver Gunshot",
-  "sounds.coppergun.copperrevolverreload": "Copper Revolver Reload",
-  "sounds.coppergun.copperrevolverclock": "Copper Revolver Clicks In Agony",
+  "sounds.usefulcopper.copperrevolvergunshot": "Copper Revolver Gunshot",
+  "sounds.usefulcopper.copperrevolverreload": "Copper Revolver Reload",
+  "sounds.usefulcopper.copperrevolverclock": "Copper Revolver Clicks In Agony",
 
-  "key.coppergun.reload": "Reload",
+  "key.usefulcopper.reload": "Reload",
 
-  "category.coppergun": "Deadly Copper"
+  "category.usefulcopper": "Useful Copper"
 }

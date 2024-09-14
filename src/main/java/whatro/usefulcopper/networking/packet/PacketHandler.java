@@ -9,7 +9,7 @@ import whatro.usefulcopper.item.custom.CopperRevolverItem;
 
 public class PacketHandler {
     public static void registerServer() {
-        ServerPlayNetworking.registerGlobalReceiver(new Identifier("coppergun", "reload_packet"), (server, player, handler, buf, responseSender) -> {
+        ServerPlayNetworking.registerGlobalReceiver(new Identifier("usefulcopper", "reload_packet"), (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
                 ItemStack stack = player.getMainHandStack();
                 if (stack.getItem() instanceof CopperRevolverItem) {
@@ -20,7 +20,7 @@ public class PacketHandler {
     }
 
     public static void registerClient() {
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier("coppergun", "particle_packet"), (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(new Identifier("usefulcopper", "particle_packet"), (client, handler, buf, responseSender) -> {
             double x = buf.readDouble();
             double y = buf.readDouble();
             double z = buf.readDouble();
@@ -33,14 +33,13 @@ public class PacketHandler {
             });
         });
 
-        ClientPlayNetworking.registerGlobalReceiver(new Identifier("coppergun", "smoke_packet"), (client, handler, buf, responseSender) -> {
+        ClientPlayNetworking.registerGlobalReceiver(new Identifier("usefulcopper", "smoke_packet"), (client, handler, buf, responseSender) -> {
             double x = buf.readDouble();
             double y = buf.readDouble();
             double z = buf.readDouble();
 
             client.execute(() -> {
                 if (client.world != null) {
-                    System.out.println("Received smoke particle packet at: " + x + ", " + y + ", " + z);
                     // Spawn the explosion particle on the client
                     client.world.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
                 }

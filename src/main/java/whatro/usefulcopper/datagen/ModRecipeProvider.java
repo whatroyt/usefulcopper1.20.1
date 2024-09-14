@@ -44,7 +44,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .offerTo(exporter);
 
         // Recipe for crafting 1 Copper Revolver from this
-        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.COPPER_MACHINE_GUN)
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.COPPER_REVOLVER)
                 .pattern("R  ")
                 .pattern("III")
                 .pattern("I  ")

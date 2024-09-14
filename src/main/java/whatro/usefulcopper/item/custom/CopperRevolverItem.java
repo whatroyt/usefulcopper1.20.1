@@ -130,7 +130,7 @@ public class CopperRevolverItem extends Item {
 
     public static void sendReloadPacket() {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        ClientPlayNetworking.send(new Identifier("coppergun", "reload_packet"), buf);
+        ClientPlayNetworking.send(new Identifier("usefulcopper", "reload_packet"), buf);
     }
 
     private void sendParticlePacketToClient(Vec3d position, World world) {
@@ -143,7 +143,7 @@ public class CopperRevolverItem extends Item {
 
             // Use a custom identifier for the particle packet
             for (ServerPlayerEntity player : serverWorld.getPlayers()) {
-                ServerPlayNetworking.send(player, new Identifier("coppergun", "smoke_packet"), buffer);
+                ServerPlayNetworking.send(player, new Identifier("usefulcopper", "smoke_packet"), buffer);
             }
         }
     }
