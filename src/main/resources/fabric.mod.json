@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "usefulcopper",
+	"version": "${version}",
+	"name": "usefulcopper",
+	"description": "Minecraft Copper Becomes More Useful",
+	"authors": [
+		"whatro"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/usefulcopper/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"whatro.usefulcopper.Usefulcopper"
+		],
+		"client": [
+			"whatro.usefulcopper.UsefulcopperClient"
+		],
+		"fabric-datagen": [
+			"whatro.usefulcopper.UsefulcopperDataGenerator"
+		]
+	},
+	"mixins": [
+		"usefulcopper.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.5",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
