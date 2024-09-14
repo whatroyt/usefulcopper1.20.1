@@ -18,6 +18,7 @@ import net.minecraft.util.Identifier;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 import whatro.usefulcopper.entity.ModEntities;
+import whatro.usefulcopper.event.KeyInputHandler;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
 import whatro.usefulcopper.networking.packet.PacketHandler;
@@ -30,35 +31,8 @@ public class UsefulcopperClient implements ClientModInitializer {
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntities.COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
 
+        KeyInputHandler.register();
         PacketHandler.registerClient();
-
-        reloadKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.usefulcopper.reload",
-                GLFW.GLFW_KEY_B,
-                "category.usefulcopper"
-        ));
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            while (reloadKey.wasPressed()) {
-                PlayerEntity player = client.player;
-                if (player != null) {
-                    ItemStack stack = player.getMainHandStack();
-
-                    if (stack.getItem() instanceof CopperRevolverItem gun) {
-                        if (gun.getAmmo(stack) < CopperRevolverItem.MAX_AMMO) {
-                            if (player.isCreative() || hasCopperSpeedloader(player)) {
-                                if (!player.isCreative()) {
-                                    // Remove one Copper Speedloader
-                                    removeCopperSpeedloader(player);
-                                }
-                                // Reload the gun
-                                CopperRevolverItem.sendReloadPacket();
-                            }
-                        }
-                    }
-                }
-            }
-        });
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -92,40 +66,6 @@ public class UsefulcopperClient implements ClientModInitializer {
     public static void sendShootPacket() {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         ClientPlayNetworking.send(SHOOT_PACKET_ID, buf);
-    }
-
-    private static boolean hasCopperSpeedloader(PlayerEntity player) {
-        // Check offhand first
-        ItemStack offhandStack = player.getOffHandStack();
-        if (offhandStack.getItem() instanceof CopperSpeedloaderItem) {
-            return true;
-        }
-
-        // Then check the player's inventory
-        for (ItemStack stack : player.getInventory().main) {
-            if (stack.getItem() instanceof CopperSpeedloaderItem) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static void removeCopperSpeedloader(PlayerEntity player) {
-        // Check offhand first
-        ItemStack offhandStack = player.getOffHandStack();
-        if (offhandStack.getItem() instanceof CopperSpeedloaderItem) {
-            offhandStack.decrement(1);
-            return;
-        }
-
-        // Then check the player's inventory
-        for (int i = 0; i < player.getInventory().main.size(); i++) {
-            ItemStack stack = player.getInventory().main.get(i);
-            if (stack.getItem() instanceof CopperSpeedloaderItem) {
-                stack.decrement(1);
-                break;
-            }
-        }
     }
 
 }
