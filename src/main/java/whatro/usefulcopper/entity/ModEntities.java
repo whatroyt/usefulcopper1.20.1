@@ -1,6 +1,8 @@
 package whatro.usefulcopper.entity;
 
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -21,5 +23,9 @@ public class ModEntities {
 
     public static void registerEntities() {
         Usefulcopper.LOGGER.info("Registering Mod Entities for " + Usefulcopper.MOD_ID);
+    }
+
+    public static void registerRenderers() {
+        EntityRendererRegistry.register(COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
     }
 }

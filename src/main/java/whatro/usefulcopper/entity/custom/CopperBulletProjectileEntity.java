@@ -10,7 +10,6 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.item.ModItems;
 
 public class CopperBulletProjectileEntity extends ThrownItemEntity {

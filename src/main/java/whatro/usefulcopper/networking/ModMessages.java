@@ -2,10 +2,7 @@ package whatro.usefulcopper.networking;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.Identifier;
-import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.networking.packet.CopperMaceExplosionS2CPacket;
 import whatro.usefulcopper.networking.packet.CopperRevolverReloadC2SPacket;
 import whatro.usefulcopper.networking.packet.CopperRevolverShootC2SPacket;

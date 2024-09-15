@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import whatro.usefulcopper.UsefulcopperClient;
 import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.entity.custom.CopperBulletProjectileEntity;
 import whatro.usefulcopper.sound.ModSounds;

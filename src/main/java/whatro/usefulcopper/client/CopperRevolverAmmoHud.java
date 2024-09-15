@@ -1,5 +1,6 @@
 package whatro.usefulcopper.client;
 
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
@@ -35,5 +36,9 @@ public class CopperRevolverAmmoHud {
                     15728880                               // light (default white light)
             );
         }
+    }
+
+    public static void register() {
+        HudRenderCallback.EVENT.register(CopperRevolverAmmoHud::renderHud);
     }
 }
