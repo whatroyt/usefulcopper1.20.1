@@ -23,12 +23,8 @@ import whatro.usefulcopper.event.KeyInputHandler;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
 import whatro.usefulcopper.networking.ModMessages;
-import whatro.usefulcopper.networking.packet.PacketHandler;
 
 public class UsefulcopperClient implements ClientModInitializer {
-    public static KeyBinding reloadKey;
-    private static final Identifier SHOOT_PACKET_ID = new Identifier("usefulcopper", "shoot");
-
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(ModEntities.COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
@@ -36,10 +32,4 @@ public class UsefulcopperClient implements ClientModInitializer {
         ModMessages.registerS2CPackets();
         HudRenderCallback.EVENT.register(CopperRevolverAmmoHud::renderHud);
     }
-
-    public static void sendShootPacket() {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        ClientPlayNetworking.send(SHOOT_PACKET_ID, buf);
-    }
-
 }

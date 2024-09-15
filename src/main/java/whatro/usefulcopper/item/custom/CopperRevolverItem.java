@@ -85,7 +85,7 @@ public class CopperRevolverItem extends Item {
         }
 
         if (world.isClient) {
-            UsefulcopperClient.sendShootPacket();
+            CopperRevolverItem.sendShootPacket();
         }
         if (!world.isClient) {
             world.playSound(null, user.getX(), user.getY(), user.getZ(),
@@ -146,6 +146,11 @@ public class CopperRevolverItem extends Item {
                 ServerPlayNetworking.send(player, new Identifier("usefulcopper", "smoke_packet"), buffer);
             }
         }
+    }
+
+    public static void sendShootPacket() {
+        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        ClientPlayNetworking.send(new Identifier("usefulcopper", "shoot"), buf);
     }
 
 }
