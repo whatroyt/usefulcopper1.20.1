@@ -21,6 +21,7 @@ import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.event.KeyInputHandler;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
+import whatro.usefulcopper.networking.ModMessages;
 import whatro.usefulcopper.networking.packet.PacketHandler;
 
 public class UsefulcopperClient implements ClientModInitializer {
@@ -32,7 +33,7 @@ public class UsefulcopperClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities.COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
 
         KeyInputHandler.register();
-        PacketHandler.registerClient();
+        ModMessages.registerS2CPackets();
 
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
             MinecraftClient client = MinecraftClient.getInstance();

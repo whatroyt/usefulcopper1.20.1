@@ -10,6 +10,7 @@ import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.item.ModItemGroups;
 import whatro.usefulcopper.item.ModItems;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
+import whatro.usefulcopper.networking.ModMessages;
 import whatro.usefulcopper.networking.packet.PacketHandler;
 import whatro.usefulcopper.sound.ModSounds;
 
@@ -40,7 +41,7 @@ public class Usefulcopper implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModEntities.registerEntities();
-		PacketHandler.registerServer();
+		ModMessages.registerC2SPackets();
 		ModSounds.registerSounds();
 	}
 }
