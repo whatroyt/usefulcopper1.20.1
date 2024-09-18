@@ -40,14 +40,21 @@ public class CopperNukeEntity extends ThrownItemEntity {
             // Define the radius (5 block radius)
             int radius = NUKE_RADIUS;
 
-            // Iterate through a cube of blocks in the radius
+            // Iterate through blocks within a sphere rather than a cube
             for (int x = -radius; x <= radius; x++) {
                 for (int y = -radius; y <= radius; y++) {
                     for (int z = -radius; z <= radius; z++) {
                         BlockPos blockPos = impactPos.add(x, y, z);
 
-                        // Only remove non-air blocks
-                        if (!world.getBlockState(blockPos).isAir()) {
+                        // Skip air blocks immediately
+                        if (world.getBlockState(blockPos).isAir()) {
+                            continue; // Skip air blocks, no further checks needed
+                        }
+
+                        // Calculate the distance from the center to make sure it's within a sphere
+                        double distance = Math.sqrt(x * x + y * y + z * z);
+                        if (distance <= radius) {
+                            // Set the block to air if it's not air already
                             world.setBlockState(blockPos, net.minecraft.block.Blocks.AIR.getDefaultState());
                         }
                     }
