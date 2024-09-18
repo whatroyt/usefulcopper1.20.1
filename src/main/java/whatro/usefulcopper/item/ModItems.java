@@ -11,20 +11,15 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import whatro.usefulcopper.Usefulcopper;
-import whatro.usefulcopper.item.custom.CopperArmorItem;
-import whatro.usefulcopper.item.custom.CopperMaceItem;
-import whatro.usefulcopper.item.custom.CopperRevolverItem;
-import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
+import whatro.usefulcopper.item.custom.*;
 
 public class ModItems {
     public static final Item COPPER_REVOLVER = registerItem("copper_revolver",
             new CopperRevolverItem(new FabricItemSettings().maxCount(1)));
-
     public static final Item COPPER_BULLET = registerItem("copper_bullet", new Item(new FabricItemSettings()));
     public static final Item COPPER_SPEEDLOADER = registerItem("copper_speedloader", new CopperSpeedloaderItem(new FabricItemSettings()));
     public static final Item COPPER_NUGGET = registerItem("copper_nugget", new Item(new FabricItemSettings()));
     public static final Item COPPER_MACE = registerItem("copper_mace", new CopperMaceItem(ToolMaterials.NETHERITE, 1, -3.0F, new FabricItemSettings().maxDamage(500)));
-
     public static final Item COPPER_HELMET = registerItem("copper_helmet",
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.HELMET, new FabricItemSettings()));
     public static final Item COPPER_CHESTPLATE = registerItem("copper_chestplate",
@@ -33,6 +28,8 @@ public class ModItems {
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
     public static final Item COPPER_BOOTS = registerItem("copper_boots",
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
+    public static final Item COPPER_NUKE = registerItem("copper_nuke",
+            new CopperNukeItem(new FabricItemSettings().maxCount(1)));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(COPPER_REVOLVER);
