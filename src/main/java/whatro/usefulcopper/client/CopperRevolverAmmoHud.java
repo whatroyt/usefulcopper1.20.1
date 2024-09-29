@@ -24,16 +24,16 @@ public class CopperRevolverAmmoHud {
 
             // Draw the ammo count on the screen
             client.textRenderer.draw(
-                    ammo + "/6 Ammo",                      // text
-                    x,                                   // x
-                    y,                                   // y
-                    0xFFFFFF,                              // color (white)
-                    false,                                 // shadow
+                    ammo + "/6 Ammo", // text
+                    x, // x position
+                    y, // y position
+                    0xFFFFFF, // color
+                    false, // shadow
                     new Matrix4f(), // matrix
                     client.getBufferBuilders().getEntityVertexConsumers(), // vertexConsumers
-                    TextRenderer.TextLayerType.NORMAL,      // layerType
-                    0,                                     // backgroundColor (no background)
-                    15728880                               // light (default white light)
+                    TextRenderer.TextLayerType.NORMAL, // layerType
+                    0, // backgroundColor (0 = no background)
+                    15728880 // light (is default white light)
             );
         }
     }

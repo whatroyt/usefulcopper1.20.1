@@ -24,6 +24,7 @@ import net.minecraft.world.World;
 
 public class CopperMaceItem extends SwordItem {
 
+    private static final float NORMAL_DAMAGE = 6.0F;
     private static final float AOE_DAMAGE = 16.0F;
     private static final float VELOCITY_DAMAGE = 16.0F;
 
@@ -90,7 +91,6 @@ public class CopperMaceItem extends SwordItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         if (!world.isClient && entity instanceof PlayerEntity player) {
-            // Check if the player is holding the Copper Mace in their main hand
             if (selected && player.getMainHandStack().getItem() instanceof CopperMaceItem) {
                 // Apply Jump Boost 5 effect (level 4 because potion levels start from 0)
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 10, 4, true, false, true));
@@ -129,7 +129,7 @@ public class CopperMaceItem extends SwordItem {
 
     @Override
     public float getAttackDamage() {
-        return 6.0F; // Ensure this value is set correctly
+        return NORMAL_DAMAGE;
     }
 
 }

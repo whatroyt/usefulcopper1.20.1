@@ -14,11 +14,10 @@ import whatro.usefulcopper.item.custom.CopperRevolverItem;
 public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
     @Inject(method = "setAngles", at = @At("TAIL"), cancellable = true)
     private void forceArmRotation(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
-        // Check if the entity is an instance of PlayerEntity
+
         if (entity instanceof PlayerEntity player) {
             ItemStack heldItem = player.getMainHandStack(); // Get the item in the main hand
 
-            // Check if the held item is the CopperMachineGunItem
             if (heldItem.getItem() instanceof CopperRevolverItem) {
                 BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
 

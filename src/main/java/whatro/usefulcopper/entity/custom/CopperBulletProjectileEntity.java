@@ -75,7 +75,6 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
 
     @Override
     protected float getGravity() {
-        // Return the gravity value. 0.03F is a common value used for projectiles
         return 0.001F;
     }
 
@@ -94,5 +93,4 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             despawnTimer = 0;
         }
     }
-
 }

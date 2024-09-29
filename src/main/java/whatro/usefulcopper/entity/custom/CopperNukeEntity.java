@@ -1,7 +1,6 @@
 package whatro.usefulcopper.entity.custom;
 
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
 import net.minecraft.item.Item;
@@ -37,7 +36,6 @@ public class CopperNukeEntity extends ThrownItemEntity {
             World world = this.getWorld();
             BlockPos impactPos = this.getBlockPos();
 
-            // Define the radius (5 block radius)
             int radius = NUKE_RADIUS;
 
             // Iterate through blocks within a sphere rather than a cube
@@ -48,7 +46,7 @@ public class CopperNukeEntity extends ThrownItemEntity {
 
                         // Skip air blocks immediately
                         if (world.getBlockState(blockPos).isAir()) {
-                            continue; // Skip air blocks, no further checks needed
+                            continue;
                         }
 
                         // Calculate the distance from the center to make sure it's within a sphere
@@ -69,7 +67,5 @@ public class CopperNukeEntity extends ThrownItemEntity {
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         super.onEntityHit(entityHitResult);
-
-        // Additional logic for when the Copper Nuke hits an entity (e.g., damage)
     }
 }

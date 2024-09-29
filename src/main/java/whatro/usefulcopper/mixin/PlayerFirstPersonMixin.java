@@ -24,14 +24,14 @@ public abstract class PlayerFirstPersonMixin {
         ItemStack mainHandItem = player.getMainHandStack();
         boolean isHoldingCopperRevolver = mainHandItem.getItem() instanceof CopperRevolverItem;
 
-        // Hide the offhand item only if the player is holding a CopperMachineGunItem in the main hand
+        // Apply transformations for the offhand hand
         if (hand == Hand.OFF_HAND && isHoldingCopperRevolver) {
             matrices.translate(0.05F, -0.25F, -0.1F);
             //ci.cancel();
             return;
         }
 
-        // Apply transformations for the main hand if needed
+        // Apply transformations for the main hand
         boolean isMainHand = hand == Hand.MAIN_HAND;
         if (isHoldingCopperRevolver && isMainHand) {
             if (player.isInSneakingPose()) {

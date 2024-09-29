@@ -18,8 +18,8 @@ public class ModEntities {
             new Identifier(Usefulcopper.MOD_ID, "copper_projectile"),
             FabricEntityTypeBuilder.<CopperBulletProjectileEntity>create(SpawnGroup.MISC, CopperBulletProjectileEntity::new)
                     .dimensions(EntityDimensions.fixed(0.1F, 0.1F)) // dimensions in Minecraft units of the projectile
-                    .trackRangeBlocks(192).trackedUpdateRate(10) // necessary for all thrown projectiles (as it prevents it from breaking, lol)
-                    .build() // VERY IMPORTANT DONT DELETE FOR THE LOVE OF GOD PSLSSSSSS
+                    .trackRangeBlocks(192).trackedUpdateRate(10) // necessary for all thrown projectiles (as it prevents it from breaking)
+                    .build()
     );
     public static final EntityType<CopperNukeEntity> COPPER_NUKE = Registry.register(Registries.ENTITY_TYPE,
             new Identifier(Usefulcopper.MOD_ID, "copper_nuke"),

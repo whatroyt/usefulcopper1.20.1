@@ -67,6 +67,7 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion("has_dye", conditionsFromItem(Items.LIGHT_BLUE_DYE))
                 .offerTo(exporter);
 
+        // Recipes for crafting Copper Armor
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.COPPER_HELMET)
                 .pattern("CCC")
                 .pattern("C C")
