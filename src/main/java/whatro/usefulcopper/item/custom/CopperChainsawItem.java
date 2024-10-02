@@ -2,10 +2,14 @@ package whatro.usefulcopper.item.custom;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.TypedActionResult;
@@ -43,6 +47,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private static final int AMOUNT_OF_BLOBS_RIGHT_CLICK = 1;
     private static final double DISTANCE_FACTOR = 0.75; // Strength of blob velocity
     private final Random random = new Random();
+    private boolean isActive = false;
+
+    private static final SoundEvent CHAINSAW_IDLE = SoundEvents.BLOCK_CHAIN_BREAK;
+    private static final SoundEvent CHAINSAW_ACTIVE = SoundEvents.BLOCK_ANVIL_PLACE;
 
     public CopperChainsawItem(Settings settings) {
         super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
@@ -87,12 +95,38 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
-        // Only execute the following on the server side
+        ItemStack itemStack = player.getStackInHand(hand);
+
+        // Only toggle the chainsaw on the server side
         if (!world.isClient) {
-            // Attempt to break a block in front of the player
-            performAttack(player, world);
+            if (isActive) {
+                // Chainsaw is currently on, so turn it off
+                isActive = false;
+                world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                player.sendMessage(Text.literal("Chainsaw turned off!"), true);
+            } else {
+                // Chainsaw is currently off, so turn it on
+                isActive = true;
+                world.playSound(null, player.getBlockPos(), CHAINSAW_ACTIVE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                player.sendMessage(Text.literal("Chainsaw turned on!"), true);
+            }
         }
-        return TypedActionResult.pass(player.getStackInHand(hand));
+
+        // Return the result so the item remains in the player's hand
+        return TypedActionResult.success(itemStack);
+    }
+
+    @Override
+    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
+        if (!world.isClient && user instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) user;
+
+            if (isActive) {
+                // Stop active sound and switch back to idle sound
+                world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                isActive = false;
+            }
+        }
     }
 
     private void performAttack(PlayerEntity player, World world) {
@@ -181,7 +215,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         // Only execute the following on the server side
-        if (!attacker.getWorld().isClient) {
+        if (isActive && !attacker.getWorld().isClient) {
             // Damage the target entity (optional, since it's already handled by the axe's base class)
             target.damage(target.getDamageSources().generic(), DAMAGE);
 
@@ -190,4 +224,16 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
         }
         return super.postHit(stack, target, attacker);
     }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        // Check if the entity is a PlayerEntity and if the item in their main hand is the CopperChainsawItem
+        if (entity instanceof PlayerEntity player && slot == player.getInventory().selectedSlot && stack.getItem() instanceof CopperChainsawItem) {
+            if (isActive) {
+                performAttack(player, world); // Call performAttack if the chainsaw is active
+            }
+        }
+        super.inventoryTick(stack, world, entity, slot, selected);
+    }
+
 }
