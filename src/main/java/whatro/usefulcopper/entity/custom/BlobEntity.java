@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.world.World;
 
@@ -25,5 +26,20 @@ public class BlobEntity extends PathAwareEntity {
     @Override
     protected void pushAway(Entity entity) {
 
+    }
+
+    @Override
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return false;
+    }
+
+    @Override
+    public boolean isFireImmune() {
+        return true;
+    }
+
+    @Override
+    public boolean canBreatheInWater() {
+        return true;
     }
 }

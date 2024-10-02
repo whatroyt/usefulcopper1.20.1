@@ -17,6 +17,8 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
     private static final int DESPAWN_TIME = 96; // 2 seconds = 40 ticks (20 ticks per second)
     private int despawnTimer = 0;
     private static final float DAMAGE = 8.0F;
+    private static final double DISTANCE_FACTOR = 0.75; //strength of blob velocity
+    private static final int AMOUNT_OF_BLOBS = 7;
 
     public CopperBulletProjectileEntity(EntityType<? extends ThrownItemEntity> entityType, World world) {
         super(entityType, world);
@@ -46,22 +48,34 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             // Deal damage to the entity
             livingEntity.damage(livingEntity.getDamageSources().generic(), DAMAGE);
 
+            // Get the bullet's velocity to determine the direction
+            double bulletVelX = this.getVelocity().x;
+            double bulletVelY = this.getVelocity().y;
+            double bulletVelZ = this.getVelocity().z;
+
+            // Normalize the velocity to get the direction
+            double magnitude = Math.sqrt(bulletVelX * bulletVelX + bulletVelY * bulletVelY + bulletVelZ * bulletVelZ);
+            if (magnitude != 0) {
+                bulletVelX /= magnitude;
+                bulletVelY /= magnitude;
+                bulletVelZ /= magnitude;
+            }
+
             // Summon 5 blob entities at the position where the bullet hit the entity
             World world = this.getWorld();
             if (!world.isClient) {
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < AMOUNT_OF_BLOBS; i++) {
                     Entity blobEntity = new BlobEntity(ModEntities.BLOB, world);
 
                     // Set the blob's initial position to the hit entity's position
                     blobEntity.setPosition(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
 
-                    // Generate a random direction for each blob (values between -1.0 and 1.0)
-                    double randomX = (Math.random() * 2 - 1) * 0.5; // Randomize X direction
-                    double randomY = Math.random() * 0.5;            // Randomize Y to give an upward motion
-                    double randomZ = (Math.random() * 2 - 1) * 0.5; // Randomize Z direction
+                    // Add randomization to the velocity for a more chaotic effect
+                    double randomX = bulletVelX + (Math.random() * 1.0 - 0.5); // More randomization in x direction
+                    double randomZ = bulletVelZ + (Math.random() * 1.0 - 0.5); // More randomization in z direction
 
-                    // Set the blob's velocity in the random direction
-                    blobEntity.setVelocity(randomX, randomY, randomZ);
+                    // Set the blob's velocity towards where the bullet came from
+                    blobEntity.setVelocity(-randomX * DISTANCE_FACTOR, 0.5, -randomZ * DISTANCE_FACTOR); // Negative to go back in the bullet's direction
 
                     // Spawn the blob in the world
                     world.spawnEntity(blobEntity);
@@ -72,6 +86,7 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             this.discard();
         }
     }
+
 
 
     @Override
