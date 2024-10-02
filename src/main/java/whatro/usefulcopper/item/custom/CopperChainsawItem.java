@@ -3,6 +3,7 @@ package whatro.usefulcopper.item.custom;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.*;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.text.Text;
@@ -34,9 +35,10 @@ import java.util.function.Supplier;
 public class CopperChainsawItem extends AxeItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
+    private static final float DAMAGE = 10.0F;
 
     public CopperChainsawItem(Settings settings) {
-        super(ToolMaterials.NETHERITE, 1.0F, 16.0F, settings);
+        super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
     }
 
     @Override
@@ -88,7 +90,6 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     }
 
     private void performAttack(PlayerEntity player, World world) {
-        // Define the raycasting parameters
         Vec3d playerPos = player.getCameraPosVec(1.0F); // Get player's position
         Vec3d playerLook = player.getRotationVec(1.0F); // Get the player's look direction
 
@@ -111,6 +112,13 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                     world.breakBlock(blockPos, true, player);
                 }
             }
+
+            // Check for entities within a certain range
+            world.getEntitiesByClass(LivingEntity.class, player.getBoundingBox().stretch(playerLook.multiply(maxDistance)), entity -> entity != player).forEach(entity -> {
+                // Damage the entity (e.g., with 5 damage)
+                entity.damage(entity.getDamageSources().generic(), DAMAGE); // Adjust damage as needed
+                player.sendMessage(Text.of("Entity damaged!"), true); // Feedback message
+            });
         }
     }
 
