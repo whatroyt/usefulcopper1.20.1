@@ -10,6 +10,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.item.ModItems;
 
 public class CopperBulletProjectileEntity extends ThrownItemEntity {
@@ -26,6 +27,7 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
         return ModItems.COPPER_BULLET;
     }
 
+    /*
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
@@ -34,6 +36,43 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             this.discard();
         }
     }
+
+     */
+
+    @Override
+    protected void onEntityHit(EntityHitResult entityHitResult) {
+        Entity entity = entityHitResult.getEntity();
+        if (entity instanceof LivingEntity livingEntity) {
+            // Deal damage to the entity
+            livingEntity.damage(livingEntity.getDamageSources().generic(), DAMAGE);
+
+            // Summon 5 blob entities at the position where the bullet hit the entity
+            World world = this.getWorld();
+            if (!world.isClient) {
+                for (int i = 0; i < 5; i++) {
+                    Entity blobEntity = new BlobEntity(ModEntities.BLOB, world);
+
+                    // Set the blob's initial position to the hit entity's position
+                    blobEntity.setPosition(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
+
+                    // Generate a random direction for each blob (values between -1.0 and 1.0)
+                    double randomX = (Math.random() * 2 - 1) * 0.5; // Randomize X direction
+                    double randomY = Math.random() * 0.5;            // Randomize Y to give an upward motion
+                    double randomZ = (Math.random() * 2 - 1) * 0.5; // Randomize Z direction
+
+                    // Set the blob's velocity in the random direction
+                    blobEntity.setVelocity(randomX, randomY, randomZ);
+
+                    // Spawn the blob in the world
+                    world.spawnEntity(blobEntity);
+                }
+            }
+
+            // Discard the bullet after hitting the entity
+            this.discard();
+        }
+    }
+
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {

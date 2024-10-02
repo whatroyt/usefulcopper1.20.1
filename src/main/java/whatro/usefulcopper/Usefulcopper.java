@@ -27,6 +27,8 @@ public class Usefulcopper implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 		ModItems.registerModItems();
 		ModEntities.registerEntities();
+		ModEntities.registerModelLayers();
+		ModEntities.registerAttributes();
 		ModMessages.registerC2SPackets();
 		ModSounds.registerSounds();
 	}

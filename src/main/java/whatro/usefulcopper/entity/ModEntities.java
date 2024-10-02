@@ -1,6 +1,8 @@
 package whatro.usefulcopper.entity;
 
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
@@ -10,6 +12,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import whatro.usefulcopper.Usefulcopper;
+import whatro.usefulcopper.entity.client.BlobModel;
+import whatro.usefulcopper.entity.client.BlobRenderer;
+import whatro.usefulcopper.entity.client.ModModelLayers;
+import whatro.usefulcopper.entity.custom.BlobEntity;
 import whatro.usefulcopper.entity.custom.CopperBulletProjectileEntity;
 import whatro.usefulcopper.entity.custom.CopperNukeEntity;
 
@@ -28,6 +34,11 @@ public class ModEntities {
                     .trackRangeBlocks(64).trackedUpdateRate(10)
                     .build()
     );
+    public static final EntityType<BlobEntity> BLOB = Registry.register(
+            Registries.ENTITY_TYPE, new Identifier(Usefulcopper.MOD_ID, "blob"),
+            FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.0625F, 0.0625F)).build()
+    );
 
     public static void registerEntities() {
         Usefulcopper.LOGGER.info("Registering Mod Entities for " + Usefulcopper.MOD_ID);
@@ -36,5 +47,14 @@ public class ModEntities {
     public static void registerRenderers() {
         EntityRendererRegistry.register(COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(COPPER_NUKE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(BLOB, BlobRenderer::new);
+    }
+
+    public static void registerAttributes() {
+        FabricDefaultAttributeRegistry.register(ModEntities.BLOB, BlobEntity.setAttributes());
+    }
+
+    public static void registerModelLayers() {
+        EntityModelLayerRegistry.registerModelLayer(ModModelLayers.BLOB, BlobModel::getTexturedModelData);
     }
 }
