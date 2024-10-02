@@ -4,7 +4,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.render.item.BuiltinModelItemRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.*;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.registry.tag.BlockTags;
@@ -18,7 +17,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.client.RenderProvider;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -52,9 +50,12 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private final Random random = new Random();
     private boolean isActive = false;
     private int timer;
+    private int impactSoundTimer = 0; // Cooldown timer for impact sound
+    private static final int IMPACT_SOUND_COOLDOWN = 10; // Cooldown duration (0.5 seconds = 10 ticks)
 
     private static final SoundEvent CHAINSAW_IDLE = ModSounds.CHAINSAW_IDLE;
     private static final SoundEvent CHAIN = SoundEvents.BLOCK_CHAIN_PLACE;
+    private static final SoundEvent CHAINSAW_IMPACT = ModSounds.CHAINSAW_IMPACT;
 
     public CopperChainsawItem(Settings settings) {
         super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
@@ -171,6 +172,13 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
                 entity.damage(entity.getDamageSources().generic(), DAMAGE); // Adjust damage as needed
 
+                // Check if we can play the impact sound
+                if (impactSoundTimer <= 0) {
+                    world.playSound(null, entity.getX(), entity.getY(), entity.getZ(),
+                            CHAINSAW_IMPACT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    impactSoundTimer = IMPACT_SOUND_COOLDOWN; // Reset the cooldown timer
+                }
+
                 // Spawn blobs from the target entity's position towards the player
                 spawnBlobs(world, entity, player, false); // Pass both the target entity and the player
             });
@@ -225,9 +233,13 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     @Override
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         // Only execute the following on the server side
-        if (isActive && !attacker.getWorld().isClient) {
-            // Damage the target entity (optional, since it's already handled by the axe's base class)
+        if (!attacker.getWorld().isClient) {
+            // Damage the target entity
             target.damage(target.getDamageSources().generic(), DAMAGE);
+
+            // Play the impact sound regardless of the isActive state
+            attacker.getWorld().playSound(null, target.getX(), target.getY(), target.getZ(),
+                    CHAINSAW_IMPACT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
             // Spawn blobs from the target entity's position towards the attacker
             spawnBlobs(attacker.getWorld(), target, (PlayerEntity) attacker, true); // Cast attacker to PlayerEntity
@@ -239,6 +251,9 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         // Check if the entity is a ServerPlayerEntity and if the item in their main hand is the CopperChainsawItem
         if (entity instanceof ServerPlayerEntity player && slot == player.getInventory().selectedSlot && stack.getItem() instanceof CopperChainsawItem) {
+            if (impactSoundTimer > 0) {
+                impactSoundTimer--; // Decrease the cooldown timer
+            }
 
             if (isActive) {
                 if (timer < 29) {

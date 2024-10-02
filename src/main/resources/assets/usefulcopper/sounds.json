@@ -22,5 +22,11 @@
     "sounds": [
       "usefulcopper:chainsaw_idle"
     ]
+  },
+  "chainsaw_impact": {
+    "subtitle": "That Look Like It Hurts",
+    "sounds": [
+      "usefulcopper:chainsaw_impact"
+    ]
   }
 }

@@ -9,12 +9,15 @@
   "item.usefulcopper.copper_leggings": "Copper Leggings",
   "item.usefulcopper.copper_boots": "Copper Boots",
   "item.usefulcopper.copper_nuke": "Copper Nuke",
+  "item.usefulcopper.copper_chainsaw": "Copper Chainsaw",
 
   "itemgroup.usefulcopper": "Copper Group",
 
   "sounds.usefulcopper.copperrevolvergunshot": "Copper Revolver Gunshot",
   "sounds.usefulcopper.copperrevolverreload": "Copper Revolver Reload",
   "sounds.usefulcopper.copperrevolverclock": "Copper Revolver Clicks In Agony",
+  "sounds.usefulcopper.chainsaw_idle": "Copper Chainsaw Engine",
+  "sounds.usefulcopper.chainsaw_impact": "That Look Like It Hurts",
 
   "key.usefulcopper.reload": "Reload",
 
