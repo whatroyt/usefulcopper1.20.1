@@ -23,6 +23,7 @@ public class ModItemGroups {
                         entries.add(ModItems.COPPER_SPEEDLOADER);
                         entries.add(ModItems.COPPER_NUGGET);
                         entries.add(ModItems.COPPER_NUKE);
+                        entries.add(ModItems.COPPER_CHAINSAW);
 
                     }).build());
 

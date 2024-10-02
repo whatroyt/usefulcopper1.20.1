@@ -30,6 +30,8 @@ public class ModItems {
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
     public static final Item COPPER_NUKE = registerItem("copper_nuke",
             new CopperNukeItem(new FabricItemSettings().maxCount(1)));
+    public static final Item COPPER_CHAINSAW = registerItem("copper_chainsaw",
+            new CopperChainsawItem(new FabricItemSettings().maxCount(1)));
 
     private static void addItemsToIngredientItemGroup(FabricItemGroupEntries entries) {
         entries.add(COPPER_REVOLVER);
