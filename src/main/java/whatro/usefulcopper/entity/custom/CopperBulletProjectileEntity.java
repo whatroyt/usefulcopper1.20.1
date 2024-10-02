@@ -48,6 +48,11 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             // Deal damage to the entity
             livingEntity.damage(livingEntity.getDamageSources().generic(), DAMAGE);
 
+            // Get the bullet's current position
+            double bulletPosX = this.getX();
+            double bulletPosY = this.getY();
+            double bulletPosZ = this.getZ();
+
             // Get the bullet's velocity to determine the direction
             double bulletVelX = this.getVelocity().x;
             double bulletVelY = this.getVelocity().y;
@@ -61,14 +66,14 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
                 bulletVelZ /= magnitude;
             }
 
-            // Summon 5 blob entities at the position where the bullet hit the entity
+            // Summon 5 blob entities at the bullet's position
             World world = this.getWorld();
             if (!world.isClient) {
                 for (int i = 0; i < AMOUNT_OF_BLOBS; i++) {
                     Entity blobEntity = new BlobEntity(ModEntities.BLOB, world);
 
-                    // Set the blob's initial position to the hit entity's position
-                    blobEntity.setPosition(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
+                    // Set the blob's initial position to the bullet's position
+                    blobEntity.setPosition(bulletPosX, bulletPosY, bulletPosZ);
 
                     // Add randomization to the velocity for a more chaotic effect
                     double randomX = bulletVelX + (Math.random() * 1.0 - 0.5); // More randomization in x direction
@@ -86,8 +91,6 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             this.discard();
         }
     }
-
-
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
