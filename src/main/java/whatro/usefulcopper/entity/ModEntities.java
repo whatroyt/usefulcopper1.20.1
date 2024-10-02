@@ -37,7 +37,7 @@ public class ModEntities {
     public static final EntityType<BlobEntity> BLOB = Registry.register(
             Registries.ENTITY_TYPE, new Identifier(Usefulcopper.MOD_ID, "blob"),
             FabricEntityTypeBuilder.create(SpawnGroup.MISC, BlobEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.0625F, 0.0625F)).build()
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F)).build()
     );
 
     public static void registerEntities() {

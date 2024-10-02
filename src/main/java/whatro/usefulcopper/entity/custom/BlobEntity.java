@@ -1,5 +1,6 @@
 package whatro.usefulcopper.entity.custom;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -21,4 +22,8 @@ public class BlobEntity extends PathAwareEntity {
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.0f);
     }
 
+    @Override
+    protected void pushAway(Entity entity) {
+
+    }
 }
