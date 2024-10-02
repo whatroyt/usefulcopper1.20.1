@@ -22,10 +22,10 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
                 BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
 
                 // Force both arms to stay at a 90-degree angle (1.5708 radians)
-                model.rightArm.pitch = -1.5708F; //rotates arm up
+                model.rightArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
                 model.rightArm.yaw = -0.2182F; //rotates arm left
 
-                model.leftArm.pitch = -1.5708F; //rotates arm up
+                model.leftArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
                 model.leftArm.yaw = 0.7854F; //rotates arm right
             }
         }
