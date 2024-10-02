@@ -16,5 +16,11 @@
     "sounds": [
       "usefulcopper:copperrevolverclock"
     ]
+  },
+  "chainsaw_idle": {
+    "subtitle": "Copper Chainsaw Engine",
+    "sounds": [
+      "usefulcopper:chainsaw_idle"
+    ]
   }
 }

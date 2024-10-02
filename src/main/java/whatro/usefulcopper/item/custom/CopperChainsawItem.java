@@ -6,7 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.*;
+import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -34,6 +36,7 @@ import software.bernie.geckolib.core.animation.AnimationState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import whatro.usefulcopper.sound.ModSounds;
 
 import java.util.Random;
 import java.util.function.Consumer;
@@ -48,9 +51,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private static final double DISTANCE_FACTOR = 0.75; // Strength of blob velocity
     private final Random random = new Random();
     private boolean isActive = false;
+    private int timer;
 
-    private static final SoundEvent CHAINSAW_IDLE = SoundEvents.BLOCK_CHAIN_BREAK;
-    private static final SoundEvent CHAINSAW_ACTIVE = SoundEvents.BLOCK_ANVIL_PLACE;
+    private static final SoundEvent CHAINSAW_IDLE = ModSounds.CHAINSAW_IDLE;
+    private static final SoundEvent CHAIN = SoundEvents.BLOCK_CHAIN_PLACE;
 
     public CopperChainsawItem(Settings settings) {
         super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
@@ -84,8 +88,14 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     }
 
     private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.copperchainsaw.on", Animation.LoopType.LOOP));
-        return PlayState.CONTINUE;
+        // Check if the chainsaw is active
+        if (isActive) {
+            // If active, play the animation
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.copperchainsaw.on", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE; // Continue the animation loop
+        } else {
+            return PlayState.STOP; // Stop the animation
+        }
     }
 
     @Override
@@ -102,12 +112,12 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
             if (isActive) {
                 // Chainsaw is currently on, so turn it off
                 isActive = false;
-                world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 player.sendMessage(Text.literal("Chainsaw turned off!"), true);
             } else {
                 // Chainsaw is currently off, so turn it on
                 isActive = true;
-                world.playSound(null, player.getBlockPos(), CHAINSAW_ACTIVE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
                 player.sendMessage(Text.literal("Chainsaw turned on!"), true);
             }
         }
@@ -227,10 +237,25 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        // Check if the entity is a PlayerEntity and if the item in their main hand is the CopperChainsawItem
-        if (entity instanceof PlayerEntity player && slot == player.getInventory().selectedSlot && stack.getItem() instanceof CopperChainsawItem) {
+        // Check if the entity is a ServerPlayerEntity and if the item in their main hand is the CopperChainsawItem
+        if (entity instanceof ServerPlayerEntity player && slot == player.getInventory().selectedSlot && stack.getItem() instanceof CopperChainsawItem) {
+
             if (isActive) {
-                performAttack(player, world); // Call performAttack if the chainsaw is active
+                if (timer < 29) {
+                    timer++;
+                } else {
+                    if (!world.isClient) {
+                        world.playSound(null, player.getX(), player.getY(), player.getZ(),
+                                ModSounds.CHAINSAW_IDLE, SoundCategory.PLAYERS, 0.8F, 1.0F);
+                        timer = 0;
+                    }
+                }
+                performAttack(player, world);
+            } else {
+                if (!world.isClient) {
+                    player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.CHAINSAW_IDLE.getId(), SoundCategory.PLAYERS));
+                }
+                timer = 29;
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);

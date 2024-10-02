@@ -11,6 +11,7 @@ public class ModSounds {
     public static final SoundEvent COPPER_REVOLVER_GUNSHOT = registerSoundEvent("copperrevolvergunshot");
     public static final SoundEvent COPPER_REVOLVER_RELOAD = registerSoundEvent("copperrevolverreload");
     public static final SoundEvent COPPER_REVOLVER_CLOCK = registerSoundEvent("copperrevolverclock");
+    public static final SoundEvent CHAINSAW_IDLE = registerSoundEvent("chainsaw_idle");
 
     private static SoundEvent registerSoundEvent(String name) {
         Identifier id = new Identifier(Usefulcopper.MOD_ID, name);
