@@ -1,6 +1,83 @@
 {
   "format_version": "1.10",
   "parent": "builtin/entity",
+  "texture_size": [
+    64,
+    64
+  ],
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [
+        0,
+        -9,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "translation": [
+        0,
+        -9,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        56,
+        0,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        56,
+        0,
+        0
+      ]
+    },
+    "ground": {
+      "translation": [
+        0,
+        -3.5,
+        0
+      ]
+    },
+    "gui": {
+      "rotation": [
+        15,
+        -135,
+        0
+      ],
+      "translation": [
+        -2.25,
+        -1.75,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "head": {
+      "translation": [
+        0,
+        8,
+        -8.75
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        90,
+        0
+      ],
+      "translation": [
+        0,
+        -4.25,
+        0
+      ]
+    }
+  },
   "textures": {
     "layer0": "usefulcopper:item/copper_chainsaw"
   }
