@@ -20,6 +20,8 @@ import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInst
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
 import software.bernie.geckolib.util.RenderUtils;
+import whatro.usefulcopper.entity.ModEntities;
+import whatro.usefulcopper.entity.custom.BlobEntity;
 import whatro.usefulcopper.item.client.CopperChainsawItemRenderer;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animation.*;
@@ -29,6 +31,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
+import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -36,6 +39,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     private static final float DAMAGE = 10.0F;
+    private static final int AMOUNT_OF_BLOBS_LEFT_CLICK = 5;
+    private static final int AMOUNT_OF_BLOBS_RIGHT_CLICK = 1;
+    private static final double DISTANCE_FACTOR = 0.75; // Strength of blob velocity
+    private final Random random = new Random();
 
     public CopperChainsawItem(Settings settings) {
         super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
@@ -84,7 +91,6 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
         if (!world.isClient) {
             // Attempt to break a block in front of the player
             performAttack(player, world);
-            player.sendMessage(Text.of("Block broken!"), true); // Feedback message
         }
         return TypedActionResult.pass(player.getStackInHand(hand));
     }
@@ -115,9 +121,14 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
             // Check for entities within a certain range
             world.getEntitiesByClass(LivingEntity.class, player.getBoundingBox().stretch(playerLook.multiply(maxDistance)), entity -> entity != player).forEach(entity -> {
-                // Damage the entity (e.g., with 5 damage)
+                if (entity instanceof BlobEntity) {
+                    return; // Skip further processing for blobs
+                }
+
                 entity.damage(entity.getDamageSources().generic(), DAMAGE); // Adjust damage as needed
-                player.sendMessage(Text.of("Entity damaged!"), true); // Feedback message
+
+                // Spawn blobs from the target entity's position towards the player
+                spawnBlobs(world, entity, player, false); // Pass both the target entity and the player
             });
         }
     }
@@ -133,5 +144,50 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
         // Call the default behavior for other block types
         return super.useOnBlock(context);
+    }
+
+    private void spawnBlobs(World world, LivingEntity targetEntity, PlayerEntity player, boolean isLeftClick) {
+        int amountOfBlobs = isLeftClick ? AMOUNT_OF_BLOBS_LEFT_CLICK : AMOUNT_OF_BLOBS_RIGHT_CLICK;
+
+        // Get the center position of the target entity
+        Vec3d centerPos = new Vec3d(
+                targetEntity.getX(), // X coordinate
+                targetEntity.getY() + (targetEntity.getHeight() / 2), // Y coordinate (center)
+                targetEntity.getZ()  // Z coordinate
+        );
+
+        Vec3d playerPos = player.getCameraPosVec(1.0F); // Get the player's position
+
+        // Calculate the direction from the center of the entity to the player
+        Vec3d directionToPlayer = playerPos.subtract(centerPos).normalize();
+
+        // Spawn blobs at the center position of the target entity
+        for (int i = 0; i < amountOfBlobs; i++) {
+            BlobEntity blobEntity = new BlobEntity(ModEntities.BLOB, world);
+            blobEntity.setPosition(centerPos.x, centerPos.y, centerPos.z); // Use center position for spawning
+
+            // Set the blob's velocity towards the player
+            double randomX = directionToPlayer.x + (random.nextDouble() * 0.5 - 0.25); // Add slight randomness to x
+            double randomZ = directionToPlayer.z + (random.nextDouble() * 0.5 - 0.25); // Add slight randomness to z
+
+            // Set the blob's velocity
+            blobEntity.setVelocity(randomX * DISTANCE_FACTOR, 0.5, randomZ * DISTANCE_FACTOR);
+
+            // Spawn the blob in the world
+            world.spawnEntity(blobEntity);
+        }
+    }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        // Only execute the following on the server side
+        if (!attacker.getWorld().isClient) {
+            // Damage the target entity (optional, since it's already handled by the axe's base class)
+            target.damage(target.getDamageSources().generic(), DAMAGE);
+
+            // Spawn blobs from the target entity's position towards the attacker
+            spawnBlobs(attacker.getWorld(), target, (PlayerEntity) attacker, true); // Cast attacker to PlayerEntity
+        }
+        return super.postHit(stack, target, attacker);
     }
 }
