@@ -23,10 +23,10 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
 
                 // Force both arms to stay at a 90-degree angle (1.5708 radians)
                 model.rightArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
-                model.rightArm.yaw = -0.2182F; //rotates arm left
+                model.rightArm.yaw = (float) (-0.2182F + Math.toRadians(netHeadYaw));; //rotates arm left
 
                 model.leftArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
-                model.leftArm.yaw = 0.7854F; //rotates arm right
+                model.leftArm.yaw = (float) (0.7854F + Math.toRadians(netHeadYaw)); //rotates arm right
             }
         }
     }
