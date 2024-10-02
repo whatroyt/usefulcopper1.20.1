@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import whatro.usefulcopper.item.custom.CopperChainsawItem;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
 
 @Mixin(BipedEntityModel.class)
@@ -38,6 +39,27 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
                     model.leftArm.yaw = newLeftArmYaw; // Assign the capped value
                 }
 
+            }
+
+            if (heldItem.getItem() instanceof CopperChainsawItem) {
+                BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
+
+                float upAngle = (float) Math.toRadians(67.5); // 67.5 degrees up
+                float inAngle = (float) Math.toRadians(22.5); // 22.5 degrees inwards
+
+                // Rotate the right arm
+                model.rightArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
+                model.rightArm.yaw = (float) (-inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
+
+                // Rotate the left arm
+                model.leftArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
+                model.leftArm.yaw = (float) (inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
+
+                if (player.isSneaking()) {
+                    // Move arms upwards while sneaking
+                    model.leftArm.pitch -= 0.5F;
+                    model.rightArm.pitch -= 0.5F;
+                }
             }
         }
     }
