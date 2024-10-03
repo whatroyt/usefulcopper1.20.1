@@ -30,7 +30,7 @@ public class ModEntities {
     public static final EntityType<CopperNukeEntity> COPPER_NUKE = Registry.register(Registries.ENTITY_TYPE,
             new Identifier(Usefulcopper.MOD_ID, "copper_nuke"),
             FabricEntityTypeBuilder.<CopperNukeEntity>create(SpawnGroup.MISC, CopperNukeEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F)) // Dimensions similar to a snowball
+                    .dimensions(EntityDimensions.fixed(0.5F, 0.25F)) // Dimensions similar to a snowball
                     .trackRangeBlocks(64).trackedUpdateRate(10)
                     .build()
     );

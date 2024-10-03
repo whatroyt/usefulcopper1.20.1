@@ -222,8 +222,11 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
             double randomX = directionToPlayer.x + (random.nextDouble() * 0.5 - 0.25); // Add slight randomness to x
             double randomZ = directionToPlayer.z + (random.nextDouble() * 0.5 - 0.25); // Add slight randomness to z
 
-            // Set the blob's velocity
             blobEntity.setVelocity(randomX * DISTANCE_FACTOR, 0.5, randomZ * DISTANCE_FACTOR);
+
+            // Set a random yaw for the blob (facing direction)
+            blobEntity.setYaw(random.nextFloat() * 360); // Random yaw between 0 and 360 degrees
+            blobEntity.prevYaw = blobEntity.getYaw(); // Update the previous yaw to match
 
             // Spawn the blob in the world
             world.spawnEntity(blobEntity);
