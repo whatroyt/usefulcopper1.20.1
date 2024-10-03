@@ -1,10 +1,14 @@
 package whatro.usefulcopper.event;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 import whatro.usefulcopper.item.custom.CopperRevolverItem;
 import whatro.usefulcopper.item.custom.CopperSpeedloaderItem;
@@ -23,8 +27,8 @@ public class KeyInputHandler {
                         if (gun.getAmmo(stack) < CopperRevolverItem.MAX_AMMO) {
                             if (player.isCreative() || hasCopperSpeedloader(player)) {
                                 if (!player.isCreative()) {
-                                    // Remove one Copper Speedloader
-                                    removeCopperSpeedloader(player);
+                                    // Send the decrement packet to the server
+                                    sendDecrementSpeedloaderPacket();
                                 }
                                 // Reload the gun
                                 CopperRevolverItem.sendReloadPacket();
@@ -35,6 +39,12 @@ public class KeyInputHandler {
             }
         });
     }
+
+    private static void sendDecrementSpeedloaderPacket() {
+        PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+        ClientPlayNetworking.send(new Identifier("usefulcopper", "decrement_speedloader_packet"), buffer);
+    }
+
 
     private static boolean hasCopperSpeedloader(PlayerEntity player) {
         // Check offhand first
