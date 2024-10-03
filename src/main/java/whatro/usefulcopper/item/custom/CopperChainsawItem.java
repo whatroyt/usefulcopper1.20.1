@@ -52,6 +52,8 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private int timer;
     private int impactSoundTimer = 0; // Cooldown timer for impact sound
     private static final int IMPACT_SOUND_COOLDOWN = 10; // Cooldown duration (0.5 seconds = 10 ticks)
+    private int durabilityCooldown = 0;
+    private static final int DURABILITY_COOLDOWN_DURATION = 10;
 
     private static final SoundEvent CHAINSAW_IDLE = ModSounds.CHAINSAW_IDLE;
     private static final SoundEvent CHAIN = SoundEvents.BLOCK_CHAIN_PLACE;
@@ -161,6 +163,9 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                 if (blockState.isIn(BlockTags.LOGS) || blockState.isIn(BlockTags.LEAVES)) {
                     // Break the block
                     world.breakBlock(blockPos, true, player);
+                    // Decrease durability of the chainsaw
+                    ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND); // Get the item in the player's main hand
+                    itemStack.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND)); // Damage the item by 1
                 }
             }
 
@@ -181,7 +186,20 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
                 // Spawn blobs from the target entity's position towards the player
                 spawnBlobs(world, entity, player, false); // Pass both the target entity and the player
+
+                // Check if the durability cooldown has expired
+                if (durabilityCooldown <= 0) {
+                    // Decrease durability of the chainsaw
+                    ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND); // Get the item in the player's main hand
+                    itemStack.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND)); // Damage the item by 1
+                    durabilityCooldown = DURABILITY_COOLDOWN_DURATION; // Reset the cooldown timer
+                }
             });
+        }
+
+        // Decrease the cooldown timer at the end of each performAttack call
+        if (durabilityCooldown > 0) {
+            durabilityCooldown--; // Decrease the cooldown timer
         }
     }
 

@@ -65,7 +65,7 @@ public class KeyInputHandler {
             ItemStack stack = player.getInventory().main.get(i);
             if (stack.getItem() instanceof CopperSpeedloaderItem) {
                 stack.decrement(1);
-                break;
+                return;
             }
         }
     }

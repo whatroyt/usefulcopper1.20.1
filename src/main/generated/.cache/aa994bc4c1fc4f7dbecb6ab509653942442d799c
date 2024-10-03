@@ -1,14 +1,16 @@
-// 1.20.1	2024-09-18T11:15:56.3238106	usefulcopper/Recipes
+// 1.20.1	2024-10-02T17:39:07.0574791	usefulcopper/Recipes
 488af265146829089a8ed24caf0e507c3013cb12 data\usefulcopper\recipes\copper_speedloader.json
 b713eb18bef465cc054c029c0a10385a172dc914 data\usefulcopper\recipes\copper_chestplate.json
-0d2ac2cdcdd5ec9803df35458a11b68670c463f4 data\usefulcopper\recipes\copper_leggings.json
 028f29681a2bbf0e64f7dd08da94491e18e2eca4 data\usefulcopper\recipes\copper_boots.json
+0d2ac2cdcdd5ec9803df35458a11b68670c463f4 data\usefulcopper\recipes\copper_leggings.json
 96cf062666725e9456d9d031dba350c51733bd8a data\usefulcopper\advancements\recipes\misc\copper_helmet.json
 57068a5ed7d3e1556ee1e4ff46b3c67bcefe2460 data\usefulcopper\advancements\recipes\misc\copper_chestplate.json
 2849bce9f1027d7bd4e235b25a7f125202da046b data\usefulcopper\advancements\recipes\misc\copper_mace.json
 d2a0f9cc98bc9effae3b7b07cc9505fbc704e3e6 data\usefulcopper\recipes\copper_helmet.json
 15d58c93b66fff4fceb376344814c6a2ee11131a data\usefulcopper\recipes\copper_revolver.json
+d705f878d2a29b170fcd7f293b896882058a411d data\usefulcopper\advancements\recipes\misc\copper_chainsaw.json
 5b57d901476e602cedcc0385228fced12d81a620 data\usefulcopper\advancements\recipes\misc\copper_revolver.json
+4ecebbc3128d72272cc26bc79817dfb33f367c12 data\usefulcopper\recipes\copper_chainsaw.json
 3c78788610ddccc46764c1d6a8de79ba8587c683 data\usefulcopper\recipes\copper_ingot.json
 6f4e5d184d22ee2e1bfa34b51fcba5804b774307 data\usefulcopper\advancements\recipes\misc\copper_leggings.json
 d326b1a9aeeda90d69b0f6506067c7732e49dc58 data\usefulcopper\advancements\recipes\misc\copper_ingot.json

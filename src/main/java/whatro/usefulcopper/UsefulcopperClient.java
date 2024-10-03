@@ -10,6 +10,7 @@ public class UsefulcopperClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ModEntities.registerRenderers();
+        ModEntities.registerModelLayers();
         KeyInputHandler.register();
         ModMessages.registerS2CPackets();
         CopperRevolverAmmoHud.register();

@@ -25,6 +25,7 @@ public class CopperRevolverItem extends Item {
     private static final long COOLDOWN_TIME_MS = 500; // 0.5 seconds in milliseconds
     private static final String LAST_SHOOT_KEY = "LastShootTime";
     private static final float COPPER_REVOLVER_CLOCK_VOLUME = 0.9f;
+    private static final int MAX_DURABILITY = 384;
 
     // Add a method to get the last shoot time from the NBT data
     private long getLastShootTime(ItemStack stack) {
@@ -37,7 +38,7 @@ public class CopperRevolverItem extends Item {
     }
 
     public CopperRevolverItem(Settings settings) {
-        super(settings);
+        super(settings.maxDamage(MAX_DURABILITY));
     }
 
     // Gets the current ammo count from the item's NBT data
@@ -99,6 +100,7 @@ public class CopperRevolverItem extends Item {
             Vec3d particlePos = new Vec3d(bulletX, bulletY, bulletZ).add(direction.multiply(0.5));
             sendParticlePacketToClient(particlePos, world);
         }
+        stack.damage(1, user, (p) -> p.sendToolBreakStatus(hand));
         setAmmo(stack, ammo - 1);
         return TypedActionResult.pass(user.getStackInHand(hand));
     }
