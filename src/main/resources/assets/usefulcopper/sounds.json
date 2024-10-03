@@ -1,30 +1,30 @@
 {
   "copperrevolvergunshot": {
-    "subtitle": "Copper Revolver Gunshot",
+    "subtitle": "subtitles.usefulcopper.copperrevolvergunshot",
     "sounds": [
       "usefulcopper:copperrevolvergunshot"
     ]
   },
   "copperrevolverreload": {
-    "subtitle": "Copper Revolver Reload",
+    "subtitle": "subtitles.usefulcopper.copperrevolverreload",
     "sounds": [
       "usefulcopper:copperrevolverreload"
     ]
   },
   "copperrevolverclock": {
-    "subtitle": "Copper Revolver Is In Agony Noise",
+    "subtitle": "subtitles.usefulcopper.copperrevolverclock",
     "sounds": [
       "usefulcopper:copperrevolverclock"
     ]
   },
   "chainsaw_idle": {
-    "subtitle": "Copper Chainsaw Engine",
+    "subtitle": "subtitles.usefulcopper.chainsaw_idle",
     "sounds": [
       "usefulcopper:chainsaw_idle"
     ]
   },
   "chainsaw_impact": {
-    "subtitle": "That Look Like It Hurts",
+    "subtitle": "subtitles.usefulcopper.chainsaw_impact",
     "sounds": [
       "usefulcopper:chainsaw_impact"
     ]

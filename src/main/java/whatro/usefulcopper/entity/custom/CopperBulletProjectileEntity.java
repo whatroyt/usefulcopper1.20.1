@@ -29,18 +29,6 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
         return ModItems.COPPER_BULLET;
     }
 
-    /*
-    @Override
-    protected void onEntityHit(EntityHitResult entityHitResult) {
-        Entity entity = entityHitResult.getEntity();
-        if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.damage(livingEntity.getDamageSources().generic(), DAMAGE);
-            this.discard();
-        }
-    }
-
-     */
-
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();

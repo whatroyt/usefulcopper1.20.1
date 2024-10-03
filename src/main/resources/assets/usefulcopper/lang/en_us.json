@@ -19,7 +19,17 @@
   "sounds.usefulcopper.chainsaw_idle": "Copper Chainsaw Engine",
   "sounds.usefulcopper.chainsaw_impact": "That Look Like It Hurts",
 
+  "subtitles.usefulcopper.copperrevolvergunshot": "Copper Revolver Gunshot",
+  "subtitles.usefulcopper.copperrevolverreload": "Copper Revolver Reload",
+  "subtitles.usefulcopper.copperrevolverclock": "Copper Revolver Is In Agony Noise",
+  "subtitles.usefulcopper.chainsaw_idle": "Copper Chainsaw Engine",
+  "subtitles.usefulcopper.chainsaw_impact": "That Look Like It Hurts",
+
   "key.usefulcopper.reload": "Reload",
+
+  "entity.usefulcopper.blob": "Blob",
+  "entity.usefulcopper.copper_projectile": "Copper Bullet",
+  "entity.usefulcopper.copper_nuke": "Copper Nuke",
 
   "category.usefulcopper": "Useful Copper"
 }
