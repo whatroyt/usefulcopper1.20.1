@@ -110,19 +110,18 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
 
-        if (world instanceof ServerWorld serverLevel) {
-            triggerAnim(player, GeoItem.getOrAssignId(player.getStackInHand(hand), serverLevel), "Activate", "Activate");
-        }
-
         // Only toggle the chainsaw on the server side
         if (!world.isClient) {
             boolean currentActiveState = isActive(itemStack);
             setActive(itemStack, !currentActiveState); // Toggle state
+
             String message = !currentActiveState ? "Chainsaw turned on!" : "Chainsaw turned off!";
             world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
             player.sendMessage(Text.literal(message), true);
+
+            // Trigger animation only when turning it on
             if (!currentActiveState) {
-                // triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
+                triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activate", "Activate");
             }
         }
 
