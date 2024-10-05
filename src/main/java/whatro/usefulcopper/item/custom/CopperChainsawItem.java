@@ -98,6 +98,14 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
         return this.cache;
     }
 
+    private boolean isActive(ItemStack stack) {
+        return stack.getOrCreateNbt().getBoolean("Active");
+    }
+
+    private void setActive(ItemStack stack, boolean active) {
+        stack.getOrCreateNbt().putBoolean("Active", active);
+    }
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
@@ -108,12 +116,13 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
         // Only toggle the chainsaw on the server side
         if (!world.isClient) {
-            isActive = !isActive; // Toggle state
-            String message = isActive ? "Chainsaw turned on!" : "Chainsaw turned off!";
+            boolean currentActiveState = isActive(itemStack);
+            setActive(itemStack, !currentActiveState); // Toggle state
+            String message = !currentActiveState ? "Chainsaw turned on!" : "Chainsaw turned off!";
             world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
             player.sendMessage(Text.literal(message), true);
-            if (isActive) {
-                //triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
+            if (!currentActiveState) {
+                // triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
             }
         }
 
@@ -123,10 +132,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!world.isClient && user instanceof PlayerEntity player && isActive) {
+        if (!world.isClient && user instanceof PlayerEntity player && isActive(stack)) {
             // Stop active sound and switch back to idle sound
             world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-            isActive = false;
+            setActive(stack, false);
         }
     }
 
@@ -264,7 +273,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                 impactSoundTimer--; // Decrease the cooldown timer
             }
 
-            if (isActive) {
+            // Check if the chainsaw is active from NBT
+            boolean active = isActive(stack);
+
+            if (active) {
                 if (timer < 29) {
                     timer++;
                 } else {
@@ -279,7 +291,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                 if (!world.isClient) {
                     player.networkHandler.sendPacket(new StopSoundS2CPacket(ModSounds.CHAINSAW_IDLE.getId(), SoundCategory.PLAYERS));
                 }
-                timer = 29;
+                timer = 29; // Reset timer to prevent sound from playing again immediately
             }
         }
         super.inventoryTick(stack, world, entity, slot, selected);
