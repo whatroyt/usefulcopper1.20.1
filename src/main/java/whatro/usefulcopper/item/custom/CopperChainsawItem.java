@@ -121,7 +121,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
             // Trigger animation only when turning it on
             if (!currentActiveState) {
-                triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activate", "Activate");
+
             }
         }
 
@@ -139,6 +139,8 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     }
 
     private void performAttack(PlayerEntity player, World world) {
+        ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND);
+        triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activate", "Activate");
         Vec3d playerPos = player.getCameraPosVec(1.0F); // Get player's position
         Vec3d playerLook = player.getRotationVec(1.0F); // Get the player's look direction
 
@@ -160,7 +162,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                     // Break the block
                     world.breakBlock(blockPos, true, player);
                     // Decrease durability of the chainsaw
-                    ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND); // Get the item in the player's main hand
+                     // Get the item in the player's main hand
                     itemStack.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND)); // Damage the item by 1
                 }
             }
@@ -186,7 +188,6 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                 // Check if the durability cooldown has expired
                 if (durabilityCooldown <= 0) {
                     // Decrease durability of the chainsaw
-                    ItemStack itemStack = player.getStackInHand(Hand.MAIN_HAND); // Get the item in the player's main hand
                     itemStack.damage(1, player, (p) -> p.sendToolBreakStatus(Hand.MAIN_HAND)); // Damage the item by 1
                     durabilityCooldown = DURABILITY_COOLDOWN_DURATION; // Reset the cooldown timer
                 }
