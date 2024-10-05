@@ -51,7 +51,6 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     private static final int AMOUNT_OF_BLOBS_RIGHT_CLICK = 1;
     private static final double DISTANCE_FACTOR = 0.75; // Strength of blob velocity
     private final Random random = new Random();
-    private boolean isActive = false;
     private int timer;
     private int impactSoundTimer = 0; // Cooldown timer for impact sound
     private static final int IMPACT_SOUND_COOLDOWN = 10; // Cooldown duration (0.5 seconds = 10 ticks)
@@ -110,29 +109,20 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
 
-        // Only toggle the chainsaw on the server side
         if (!world.isClient) {
             boolean currentActiveState = isActive(itemStack);
-            setActive(itemStack, !currentActiveState); // Toggle state
-
+            setActive(itemStack, !currentActiveState);
             String message = !currentActiveState ? "Chainsaw turned on!" : "Chainsaw turned off!";
             world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
             player.sendMessage(Text.literal(message), true);
-
-            // Trigger animation only when turning it on
-            if (!currentActiveState) {
-
-            }
         }
 
-        // Return the result so the item remains in the player's hand
         return super.use(world, player, hand);
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
         if (!world.isClient && user instanceof PlayerEntity player && isActive(stack)) {
-            // Stop active sound and switch back to idle sound
             world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
             setActive(stack, false);
         }
