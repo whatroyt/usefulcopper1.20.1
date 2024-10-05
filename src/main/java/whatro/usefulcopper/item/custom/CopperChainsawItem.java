@@ -8,6 +8,7 @@ import net.minecraft.item.*;
 import net.minecraft.network.packet.s2c.play.StopSoundS2CPacket;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -18,11 +19,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import software.bernie.geckolib.animatable.GeoItem;
+import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.RenderProvider;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.AnimatableManager;
 import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.util.GeckoLibUtil;
 import software.bernie.geckolib.util.RenderUtils;
 import whatro.usefulcopper.entity.ModEntities;
 import whatro.usefulcopper.entity.custom.BlobEntity;
@@ -41,7 +43,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class CopperChainsawItem extends AxeItem implements GeoItem {
-    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this);
+    private static final RawAnimation ACTIVATE_ANIM = RawAnimation.begin().thenPlay("animation.copperchainsaw.on");
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
     private final Supplier<Object> renderProvider = GeoItem.makeRenderer(this);
     private static final float DAMAGE = 10.0F;
     private static final int AMOUNT_OF_BLOBS_LEFT_CLICK = 5;
@@ -61,15 +64,19 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     public CopperChainsawItem(Settings settings) {
         super(ToolMaterials.NETHERITE, 1.7F, 16.0F, settings);
+        SingletonGeoAnimatable.registerSyncedAnimatable(this);
     }
 
     @Override
     public void createRenderer(Consumer<Object> consumer) {
         consumer.accept(new RenderProvider() {
-            private final CopperChainsawItemRenderer renderer = new CopperChainsawItemRenderer();
+            private CopperChainsawItemRenderer renderer;
 
             @Override
             public BuiltinModelItemRenderer getCustomRenderer() {
+                if (this.renderer == null)
+                    this.renderer = new CopperChainsawItemRenderer();
+
                 return this.renderer;
             }
         });
@@ -77,7 +84,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public Supplier<Object> getRenderProvider() {
-        return renderProvider;
+        return this.renderProvider;
     }
 
     @Override
@@ -87,23 +94,13 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "controller", 0, this::predicate));
-    }
-
-    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
-        // Check if the chainsaw is active
-        if (isActive) {
-            // If active, play the animation
-            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.copperchainsaw.on", Animation.LoopType.LOOP));
-            return PlayState.CONTINUE; // Continue the animation loop
-        } else {
-            return PlayState.STOP; // Stop the animation
-        }
+        controllers.add(new AnimationController<>(this, "Activation", 0, state -> PlayState.STOP)
+                .triggerableAnim("activate", ACTIVATE_ANIM));
     }
 
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+        return this.cache;
     }
 
     @Override
@@ -112,16 +109,12 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
         // Only toggle the chainsaw on the server side
         if (!world.isClient) {
+            isActive = !isActive; // Toggle state
+            String message = isActive ? "Chainsaw turned on!" : "Chainsaw turned off!";
+            world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            player.sendMessage(Text.literal(message), true);
             if (isActive) {
-                // Chainsaw is currently on, so turn it off
-                isActive = false;
-                world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                player.sendMessage(Text.literal("Chainsaw turned off!"), true);
-            } else {
-                // Chainsaw is currently off, so turn it on
-                isActive = true;
-                world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                player.sendMessage(Text.literal("Chainsaw turned on!"), true);
+                triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
             }
         }
 
@@ -131,14 +124,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (!world.isClient && user instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) user;
-
-            if (isActive) {
-                // Stop active sound and switch back to idle sound
-                world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                isActive = false;
-            }
+        if (!world.isClient && user instanceof PlayerEntity player && isActive) {
+            // Stop active sound and switch back to idle sound
+            world.playSound(null, player.getBlockPos(), CHAINSAW_IDLE, SoundCategory.PLAYERS, 1.0F, 1.0F);
+            isActive = false;
         }
     }
 
