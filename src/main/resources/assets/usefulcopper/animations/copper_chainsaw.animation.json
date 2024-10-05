@@ -2,7 +2,6 @@
 	"format_version": "1.8.0",
 	"animations": {
 		"animation.copperchainsaw.on": {
-			"loop": true,
 			"animation_length": 0.0833,
 			"bones": {
 				"frontchain": {

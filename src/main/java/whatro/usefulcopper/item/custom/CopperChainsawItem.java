@@ -88,14 +88,9 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     }
 
     @Override
-    public double getTick(Object itemStack) {
-        return RenderUtils.getCurrentTick();
-    }
-
-    @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, "Activation", 0, state -> PlayState.STOP)
-                .triggerableAnim("activate", ACTIVATE_ANIM));
+        controllers.add(new AnimationController<>(this, "Activate", 0, state -> PlayState.STOP)
+                .triggerableAnim("Activate", ACTIVATE_ANIM));
     }
 
     @Override
@@ -107,6 +102,10 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
 
+        if (world instanceof ServerWorld serverLevel) {
+            triggerAnim(player, GeoItem.getOrAssignId(player.getStackInHand(hand), serverLevel), "Activate", "Activate");
+        }
+
         // Only toggle the chainsaw on the server side
         if (!world.isClient) {
             isActive = !isActive; // Toggle state
@@ -114,12 +113,12 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
             world.playSound(null, player.getBlockPos(), CHAIN, SoundCategory.PLAYERS, 1.0F, 1.0F);
             player.sendMessage(Text.literal(message), true);
             if (isActive) {
-                triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
+                //triggerAnim(player, GeoItem.getOrAssignId(itemStack, (ServerWorld) world), "Activation", "activate");
             }
         }
 
         // Return the result so the item remains in the player's hand
-        return TypedActionResult.success(itemStack);
+        return super.use(world, player, hand);
     }
 
     @Override
