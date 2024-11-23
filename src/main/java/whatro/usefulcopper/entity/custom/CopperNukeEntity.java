@@ -38,6 +38,7 @@ public class CopperNukeEntity extends ThrownItemEntity {
 
             int radius = NUKE_RADIUS;
 
+            /*
             // Iterate through blocks within a sphere rather than a cube
             for (int x = -radius; x <= radius; x++) {
                 for (int y = -radius; y <= radius; y++) {
@@ -58,6 +59,8 @@ public class CopperNukeEntity extends ThrownItemEntity {
                     }
                 }
             }
+
+             */
 
             // Remove the entity after collision
             this.discard();
