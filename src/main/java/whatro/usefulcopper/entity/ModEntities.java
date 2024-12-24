@@ -17,7 +17,6 @@ import whatro.usefulcopper.entity.client.BlobRenderer;
 import whatro.usefulcopper.entity.client.ModModelLayers;
 import whatro.usefulcopper.entity.custom.BlobEntity;
 import whatro.usefulcopper.entity.custom.CopperBulletProjectileEntity;
-import whatro.usefulcopper.entity.custom.CopperNukeEntity;
 
 public class ModEntities {
     public static final EntityType<CopperBulletProjectileEntity> COPPER_PROJECTILE = Registry.register(Registries.ENTITY_TYPE,
@@ -25,13 +24,6 @@ public class ModEntities {
             FabricEntityTypeBuilder.<CopperBulletProjectileEntity>create(SpawnGroup.MISC, CopperBulletProjectileEntity::new)
                     .dimensions(EntityDimensions.fixed(0.1F, 0.1F)) // dimensions in Minecraft units of the projectile
                     .trackRangeBlocks(192).trackedUpdateRate(10) // necessary for all thrown projectiles (as it prevents it from breaking)
-                    .build()
-    );
-    public static final EntityType<CopperNukeEntity> COPPER_NUKE = Registry.register(Registries.ENTITY_TYPE,
-            new Identifier(Usefulcopper.MOD_ID, "copper_nuke"),
-            FabricEntityTypeBuilder.<CopperNukeEntity>create(SpawnGroup.MISC, CopperNukeEntity::new)
-                    .dimensions(EntityDimensions.fixed(0.5F, 0.25F)) // Dimensions similar to a snowball
-                    .trackRangeBlocks(64).trackedUpdateRate(10)
                     .build()
     );
     public static final EntityType<BlobEntity> BLOB = Registry.register(
@@ -46,7 +38,6 @@ public class ModEntities {
 
     public static void registerRenderers() {
         EntityRendererRegistry.register(COPPER_PROJECTILE, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(COPPER_NUKE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(BLOB, BlobRenderer::new);
     }
 

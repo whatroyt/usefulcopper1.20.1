@@ -28,8 +28,6 @@ public class ModItems {
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.LEGGINGS, new FabricItemSettings()));
     public static final Item COPPER_BOOTS = registerItem("copper_boots",
             new CopperArmorItem(ModArmorMaterials.COPPER, ArmorItem.Type.BOOTS, new FabricItemSettings()));
-    public static final Item COPPER_NUKE = registerItem("copper_nuke",
-            new CopperNukeItem(new FabricItemSettings().maxCount(1)));
     public static final Item COPPER_CHAINSAW = registerItem("copper_chainsaw",
             new CopperChainsawItem(new FabricItemSettings().maxCount(1)));
 
