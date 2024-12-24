@@ -173,7 +173,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                 }
 
                 // Spawn blobs from the target entity's position towards the player
-                spawnBlobs(world, entity, player, false); // Pass both the target entity and the player
+                //spawnBlobs(world, entity, player, false); // Pass both the target entity and the player
 
                 // Check if the durability cooldown has expired
                 if (durabilityCooldown <= 0) {
@@ -250,7 +250,7 @@ public class CopperChainsawItem extends AxeItem implements GeoItem {
                     CHAINSAW_IMPACT, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
             // Spawn blobs from the target entity's position towards the attacker
-            spawnBlobs(attacker.getWorld(), target, (PlayerEntity) attacker, true); // Cast attacker to PlayerEntity
+            //spawnBlobs(attacker.getWorld(), target, (PlayerEntity) attacker, true); // Cast attacker to PlayerEntity
         }
         return super.postHit(stack, target, attacker);
     }

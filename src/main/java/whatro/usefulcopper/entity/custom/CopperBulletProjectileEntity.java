@@ -36,6 +36,7 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
             // Deal damage to the entity
             livingEntity.damage(livingEntity.getDamageSources().generic(), DAMAGE);
 
+            /*
             // Get the bullet's current position
             double bulletPosX = this.getX();
             double bulletPosY = this.getY();
@@ -74,6 +75,8 @@ public class CopperBulletProjectileEntity extends ThrownItemEntity {
                     world.spawnEntity(blobEntity);
                 }
             }
+
+             */
 
             // Discard the bullet after hitting the entity
             this.discard();
