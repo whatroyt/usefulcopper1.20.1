@@ -42,19 +42,19 @@ public class CopperMaceItem extends SwordItem {
             if (attacker instanceof PlayerEntity player && player.getVelocity().y < -0.4) {
                 damage = VELOCITY_DAMAGE;
 
-                // Delete blocks in a 3x3 radius around the target (on the server)
+                // Delete blocks in a 3x3 radius around the target
                 deleteBlocksAroundTarget(world, target, player);
 
                 // Send a packet to the client to spawn explosion particles
                 sendParticlePacketToClient(target.getPos(), world);
 
-                // Play anvil sound when hitting the target while falling (on the server)
+                // Play anvil sound when hitting the target while falling
                 world.playSound(null, target.getBlockPos(), SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-                // Play anvil sound when hitting the target while falling (on the server)
+                // Play anvil sound when hitting the target while falling
                 world.playSound(null, target.getBlockPos(), SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
-                // Damage the item (on the server)
+                // Damage the item
                 stack.damage(1, attacker, (entity) -> entity.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
             }
         }

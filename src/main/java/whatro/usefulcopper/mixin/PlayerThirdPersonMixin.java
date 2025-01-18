@@ -23,20 +23,20 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
                 BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
 
                 // Force both arms to stay at a 90-degree angle (1.5708 radians)
-                model.rightArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
-                model.rightArm.yaw = (float) (Math.toRadians(netHeadYaw));; //rotates arm left
+                model.rightArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); // Rotates arm up
+                model.rightArm.yaw = (float) (Math.toRadians(netHeadYaw));; // Rotates arm left
 
                 if (player.isSneaking()) {
-                    model.leftArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); //rotates arm up
+                    model.leftArm.pitch = (float) (-1.5708F + Math.toRadians(headPitch)); // Rotates arm up
 
-                    //prevent this from being greater than 1.0F
-                    float newLeftArmYaw = (float) (1.0F + Math.toRadians(netHeadYaw)); //rotates arm right
+                    // Prevent this from being greater than 1.0F
+                    float newLeftArmYaw = (float) (1.0F + Math.toRadians(netHeadYaw)); // Rotates arm right
 
                     // Prevent the yaw from exceeding 1.0F
                     if (newLeftArmYaw > 1.1F) {
                         newLeftArmYaw = 1.1F; // Cap the value at 1.0F
                     }
-                    model.leftArm.yaw = newLeftArmYaw; // Assign the capped value
+                    model.leftArm.yaw = newLeftArmYaw;
                 }
 
             }
@@ -44,8 +44,8 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
             if (heldItem.getItem() instanceof CopperChainsawItem) {
                 BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
 
-                float upAngle = (float) Math.toRadians(67.5); // 67.5 degrees up
-                float inAngle = (float) Math.toRadians(22.5); // 22.5 degrees inwards
+                float upAngle = (float) Math.toRadians(67.5); // Rotates arm up
+                float inAngle = (float) Math.toRadians(22.5); // Rotates arm right
 
                 // Rotate the right arm
                 model.rightArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
