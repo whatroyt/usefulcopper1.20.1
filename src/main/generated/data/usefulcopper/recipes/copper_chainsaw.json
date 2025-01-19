@@ -8,8 +8,8 @@
     "I": {
       "item": "minecraft:iron_ingot"
     },
-    "R": {
-      "item": "minecraft:redstone_block"
+    "W": {
+      "item": "minecraft:nether_star"
     },
     "X": {
       "item": "minecraft:chain"
@@ -17,7 +17,7 @@
   },
   "pattern": [
     "CCX",
-    "CRI",
+    "CWI",
     "CCX"
   ],
   "result": {

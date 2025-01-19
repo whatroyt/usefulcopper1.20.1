@@ -103,14 +103,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
         // Recipe for crafting 1 Copper Chainsaw from this
         ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.COPPER_CHAINSAW)
                 .pattern("CCX")
-                .pattern("CRI")
+                .pattern("CWI")
                 .pattern("CCX")
                 .input('C', Items.COPPER_INGOT)
-                .input('R', Items.REDSTONE_BLOCK)
+                .input('W', Items.NETHER_STAR)
                 .input('X', Items.CHAIN)
                 .input('I', Items.IRON_INGOT)
                 .criterion("has_copper_ingot", conditionsFromItem(Items.COPPER_INGOT))
-                .criterion("has_redstone_block", conditionsFromItem(Items.REDSTONE_BLOCK))
+                .criterion("has_nether_star", conditionsFromItem(Items.NETHER_STAR))
                 .criterion("has_chain", conditionsFromItem(Items.CHAIN))
                 .criterion("has_iron_ingot", conditionsFromItem(Items.IRON_INGOT))
                 .offerTo(exporter);

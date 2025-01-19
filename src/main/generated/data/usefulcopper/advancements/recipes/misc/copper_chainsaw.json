@@ -37,12 +37,12 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_redstone_block": {
+    "has_nether_star": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:redstone_block"
+              "minecraft:nether_star"
             ]
           }
         ]
@@ -59,7 +59,7 @@
   "requirements": [
     [
       "has_copper_ingot",
-      "has_redstone_block",
+      "has_nether_star",
       "has_chain",
       "has_iron_ingot",
       "has_the_recipe"
