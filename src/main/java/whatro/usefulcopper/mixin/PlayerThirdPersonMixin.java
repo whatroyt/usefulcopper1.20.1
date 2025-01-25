@@ -19,6 +19,27 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
         if (entity instanceof PlayerEntity player) {
             ItemStack heldItem = player.getMainHandStack(); // Get the item in the main hand
 
+            if (heldItem.getItem() instanceof CopperChainsawItem) {
+                BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
+
+                float upAngle = (float) Math.toRadians(67.5); // Rotates arm up
+                float inAngle = (float) Math.toRadians(22.5); // Rotates arm right
+
+                // Rotate the right arm
+                model.rightArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
+                model.rightArm.yaw = (float) (-inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
+
+                // Rotate the left arm
+                model.leftArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
+                model.leftArm.yaw = (float) (inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
+
+                if (player.isSneaking()) {
+                    // Move arms upwards while sneaking
+                    model.leftArm.pitch -= 0.5F;
+                    model.rightArm.pitch -= 0.5F;
+                }
+            }
+
             if (heldItem.getItem() instanceof CopperRevolverItem) {
                 BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
 
@@ -39,27 +60,6 @@ public abstract class PlayerThirdPersonMixin<T extends LivingEntity> {
                     model.leftArm.yaw = newLeftArmYaw;
                 }
 
-            }
-
-            if (heldItem.getItem() instanceof CopperChainsawItem) {
-                BipedEntityModel<?> model = (BipedEntityModel<?>) (Object) this;
-
-                float upAngle = (float) Math.toRadians(67.5); // Rotates arm up
-                float inAngle = (float) Math.toRadians(22.5); // Rotates arm right
-
-                // Rotate the right arm
-                model.rightArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
-                model.rightArm.yaw = (float) (-inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
-
-                // Rotate the left arm
-                model.leftArm.pitch = (float) (-upAngle + Math.toRadians(headPitch)); // Rotate arm up
-                model.leftArm.yaw = (float) (inAngle + Math.toRadians(netHeadYaw)); // Rotate arm inwards
-
-                if (player.isSneaking()) {
-                    // Move arms upwards while sneaking
-                    model.leftArm.pitch -= 0.5F;
-                    model.rightArm.pitch -= 0.5F;
-                }
             }
         }
     }
